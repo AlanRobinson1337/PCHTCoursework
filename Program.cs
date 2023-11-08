@@ -49,7 +49,13 @@ namespace PCHTCoursework
              * Splitting files into emotions
             **/
             string[] emotion = { "happy", "neutral", "angry" };
-            List<string> listX, listY;
+            List<string> listX, listY;                      //from about here down I need to rethink
+            //TODO: Make class list instance.
+            // For each emotion
+            // Make new classs -Name(TD/ASD), Emotion+I
+            // for each row in CSV
+            // Add record to class
+            // I++
             List<double> stdPDDevsASD = new List<double>();
             List<double> stdPDDevsTD = new List<double>();
             List<double> stdFDDevsASD = new List<double>();
