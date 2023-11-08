@@ -52,13 +52,20 @@ namespace PCHTCoursework
             List<string> listX, listY;                      //from about here down I need to rethink
             //-------------------------WORKING ON AREA---------------------------
             // TODO: Open Loop
+
             int i = 1;
             DataClasses dataClasses = new DataClasses();
             foreach (string emo in emotion)
             {
-                DataClass dataClass = new DataClass(emo, "TD"+i);
+                listX = FileFilter(TDFiles, emo);
+                foreach (String s in listX)
+                {
+                    DataClass dataClass = new DataClass(emo, "TD" + i);
 
-                dataClasses.AddDataClassToList(dataClass);
+                    dataClasses.AddDataClassToList(dataClass);
+                    i++;
+                }
+                i = 1;
                 
             }
             foreach (DataClass item in dataClasses.dataClasses)
@@ -71,7 +78,7 @@ namespace PCHTCoursework
                 // for each row in CSV
                 // Add record to class
                 // I++
-                //----------------END OF WORKING ON AREA--------------------
+             //----------------END OF WORKING ON AREA--------------------
                 List<double> stdPDDevsASD = new List<double>();
             List<double> stdPDDevsTD = new List<double>();
             List<double> stdFDDevsASD = new List<double>();
@@ -105,7 +112,7 @@ namespace PCHTCoursework
                 }
                 foreach(double s in stdFDDevsASD)
                 {
-                    Console.WriteLine(s);
+                    //Console.WriteLine(s);
                 }
             }
 
