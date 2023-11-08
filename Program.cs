@@ -22,7 +22,10 @@ namespace PCHTCoursework
             /**
              * This block scans directories and pulls the file paths from each where it can return a list of all paths
             **/
-            System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
+            //UniLaptop rootPath
+            String[] rootPath = { @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\TD\" };
+            //HomePC rootPath
+            //System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
             string[] ASDDirs = new string[50];
             List<string> ASDFiles = new();
             string[] TDDirs = new string[50];
