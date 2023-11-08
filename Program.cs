@@ -61,20 +61,20 @@ namespace PCHTCoursework
                 foreach (String s in listX)
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
+                    //for each row in csv add to dataclass
 
                     dataClasses.AddDataClassToList(dataClass);
                     i++;
                 }
                 i = 1;
-                
-            }
+            } //repeat above for ASD
             foreach (DataClass item in dataClasses.dataClasses)
             {
                 Console.WriteLine(item.name + " " + item.emotion);
             }
                 // Make class list instance.
                 // For each emotion
-                // Make new classs -Name(TD/ASD), Emotion+I
+                
                 // for each row in CSV
                 // Add record to class
                 // I++

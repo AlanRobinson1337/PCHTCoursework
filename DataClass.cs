@@ -28,6 +28,10 @@ namespace PCHTCoursework
         {
             this.name = name;
             this.emotion = emotion;
+            this.pupilDilation = new List<double>();
+            this.fixationDuration = new List<double>();
+            this.reigonOfInterest = new List<int>();
         }
+
     }
 }
