@@ -61,6 +61,7 @@ namespace PCHTCoursework
                 foreach (String s in listX)
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
+                    readInCSVDataClass(TDFiles);
                     //for each row in csv add to dataclass
                     //do I need a new file readin? Simplified?
                     dataClasses.AddDataClassToList(dataClass);
