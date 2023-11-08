@@ -8,11 +8,12 @@ namespace PCHTCoursework
 {
     internal class DataClass
     {
-        private String name;
-        private String emotion;
-        private List<double> pupilDilation;
-        private List<double> fixationDuration;
-        private List<int> reigonOfInterest;
+        private String name { get; set; }
+        private String emotion { get; set; }
+        private List<double> pupilDilation { get; set; }
+        private List<double> fixationDuration { get; set; }
+        private List<int> reigonOfInterest { get; set; }
+        private List<DataClass> dataClasses { get; set; }
 
         public DataClass(string name, string emotion, List<double> pupilDilation, List<double> fixationDuration, List<int> reigonOfInterest)
         {
