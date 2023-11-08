@@ -62,7 +62,7 @@ namespace PCHTCoursework
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
                     //for each row in csv add to dataclass
-
+                    //do I need a new file readin? Simplified?
                     dataClasses.AddDataClassToList(dataClass);
                     i++;
                 }
