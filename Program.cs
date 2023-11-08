@@ -50,13 +50,29 @@ namespace PCHTCoursework
             **/
             string[] emotion = { "happy", "neutral", "angry" };
             List<string> listX, listY;                      //from about here down I need to rethink
-            //TODO: Make class list instance.
-            // For each emotion
-            // Make new classs -Name(TD/ASD), Emotion+I
-            // for each row in CSV
-            // Add record to class
-            // I++
-            List<double> stdPDDevsASD = new List<double>();
+            //-------------------------WORKING ON AREA---------------------------
+            // TODO: Open Loop
+            int i = 1;
+            DataClasses dataClasses = new DataClasses();
+            foreach (string emo in emotion)
+            {
+                DataClass dataClass = new DataClass(emo, "TD"+i);
+
+                dataClasses.AddDataClassToList(dataClass);
+                
+            }
+            foreach (DataClass item in dataClasses.dataClasses)
+            {
+                Console.WriteLine(item.name + " " + item.emotion);
+            }
+                // Make class list instance.
+                // For each emotion
+                // Make new classs -Name(TD/ASD), Emotion+I
+                // for each row in CSV
+                // Add record to class
+                // I++
+                //----------------END OF WORKING ON AREA--------------------
+                List<double> stdPDDevsASD = new List<double>();
             List<double> stdPDDevsTD = new List<double>();
             List<double> stdFDDevsASD = new List<double>();
             List<double> stdFDDevsTD = new List<double>();

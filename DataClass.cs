@@ -8,8 +8,8 @@ namespace PCHTCoursework
 {
     internal class DataClass
     {
-        private String name { get; set; }
-        private String emotion { get; set; }
+        public String name { get; set; }
+        public String emotion { get; set; }
         private List<double> pupilDilation { get; set; }
         private List<double> fixationDuration { get; set; }
         private List<int> reigonOfInterest { get; set; }
@@ -24,5 +24,10 @@ namespace PCHTCoursework
             this.reigonOfInterest = reigonOfInterest;
         }
 
+        public DataClass(string name, string emotion)
+        {
+            this.name = name;
+            this.emotion = emotion;
+        }
     }
 }
