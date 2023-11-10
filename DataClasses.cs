@@ -17,7 +17,7 @@ namespace PCHTCoursework
         public void AddDataClassToList(DataClass dataClass)
         {
             this.dataClasses.Add(dataClass);
-
         }
+        
     }
 }

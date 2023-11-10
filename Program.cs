@@ -44,15 +44,16 @@ namespace PCHTCoursework
                     TDFiles = GetFiles(TDDirs);
                 }
             }
-            
             /**
              * Splitting files into emotions
             **/
             string[] emotion = { "happy", "neutral", "angry" };
-            List<string> TDFileList, ASDFileList;                      //from about here down I need to rethink
-            //-------------------------WORKING ON AREA---------------------------
-            // TODO: Open Loop
-
+            List<string> TDFileList, ASDFileList;
+            /**
+             * Get all data from all files in two collections of dataClasses
+             * And one collection of all data classes
+             */
+            DataClasses allDataClasses = new DataClasses();
             int i = 1;
             DataClasses dataClassesTD = new DataClasses();
             foreach (string emo in emotion)
@@ -62,9 +63,10 @@ namespace PCHTCoursework
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
                     dataClass = readInCSVDataClass(dataClass, s);
-                    dataClass.pupilDilationStandardDevidation= (CalculateStandardDeviation(dataClass.pupilDilation));
-                    dataClass.fixationDurationStandardDeviation= (CalculateStandardDeviation(dataClass.fixationDuration));
+                    dataClass.pupilDilationStandardDevidation= CalculateStandardDeviation(dataClass.pupilDilation);
+                    dataClass.fixationDurationStandardDeviation= CalculateStandardDeviation(dataClass.fixationDuration);
                     dataClassesTD.AddDataClassToList(dataClass);
+                    allDataClasses.AddDataClassToList(dataClass);
                     i++;
                 }
                 i = 1;
@@ -78,52 +80,36 @@ namespace PCHTCoursework
                 {
                     DataClass dataClass = new DataClass(emo, "ASD" + i);
                     dataClass = readInCSVDataClass(dataClass, s);
-                    dataClass.pupilDilationStandardDevidation =(CalculateStandardDeviation(dataClass.pupilDilation));
-                    dataClass.fixationDurationStandardDeviation =(CalculateStandardDeviation(dataClass.fixationDuration));
+                    dataClass.pupilDilationStandardDevidation = CalculateStandardDeviation(dataClass.pupilDilation);
+                    dataClass.fixationDurationStandardDeviation = CalculateStandardDeviation(dataClass.fixationDuration);
                     dataClassesASD.AddDataClassToList(dataClass);
+                    allDataClasses.AddDataClassToList(dataClass);
                     i++;
                 }
                 i = 1;
             }
+            Console.WriteLine("Emotion & Subject \t Fixation Duration \t Pupil Dilation");
+            foreach (DataClass d in allDataClasses.dataClasses) {
+                
+                Console.WriteLine(d.emotion + d.name +"\t\t"+d.fixationDurationStandardDeviation+"\t"+d.pupilDilationStandardDevidation);
+            }
+            Console.WriteLine();
 
-            
-            //----------------END OF WORKING ON AREA--------------------
-            //    List<double> stdPDDevsASD = new List<double>();
-            //List<double> stdPDDevsTD = new List<double>();
-            //List<double> stdFDDevsASD = new List<double>();
-            //List<double> stdFDDevsTD = new List<double>();
-
-            /**
-             * get standard Deviation for PupilDiamater & Fixation Duration
-             * */
-            //foreach (string emo in emotion) 
-            //{
-            //    listX = FileFilter(TDFiles, emo);
-            //    foreach (string s in listX)
-            //    {
-            //        List<double> TDFilePD = ReadInPupilDiamater(s);
-            //        List<double> TDFileFD = ReadInFixationDuration(s);
-            //        double stdPDDevTD = CalculateStandardDeviation(TDFilePD);
-            //        double stdFDDevTD = CalculateStandardDeviation(TDFileFD);
-            //        stdPDDevsTD.Add(stdPDDevTD);
-            //        stdFDDevsTD.Add(stdFDDevTD);     
-            //    }
-            //    listY = FileFilter(ASDFiles, emo);
-            //    foreach(string s in listY)
-            //    {
-            //        List<double> ASDFilePD = ReadInPupilDiamater(s);
-            //        List<double> ASDFileFD = ReadInFixationDuration(s);
-            //        double stdPDDevASD = CalculateStandardDeviation(ASDFilePD);
-            //        double stdFDDevASD = CalculateStandardDeviation(ASDFileFD);
-            //        stdPDDevsASD.Add(stdPDDevASD);
-            //        stdFDDevsASD.Add(stdFDDevASD);
-            //    }
-            //    foreach(double s in stdFDDevsASD)
-            //    {
-            //        //Console.WriteLine(s);
-            //    }
-            //}
-
+            //add standard deviation with reigon of interest
+            foreach (DataClass d in dataClassesTD.dataClasses)
+            {
+                foreach (double dub in d.reigonOfInterest)
+                {
+                    if (dub == 1)
+                    {
+                        Console.WriteLine("We got a 1");
+                    }
+                    else
+                    {
+                        Console.WriteLine("This is a 2");
+                    }
+                }
+            }
         }
     }
 }

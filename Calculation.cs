@@ -13,7 +13,7 @@ namespace PCHTCoursework
          */
         public static double AveragePupilDilation() //needs standard deviation
         {
-            return 1.0;
+            throw new NotImplementedException();
         }
 
         public static void AveragefixationDilation() //needs standard deviation
