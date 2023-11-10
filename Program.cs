@@ -13,8 +13,6 @@ using static PCHTCoursework.FilePuller;
 namespace PCHTCoursework
 {
     public class main 
-        //TODO: Convert lists from String to Double. Use it's own class.
-        //TODO: Implement Math in Calculation Class.
     {
 
         public static void Main(string[] args)
@@ -61,7 +59,7 @@ namespace PCHTCoursework
                 TDFileList = FileFilter(TDFiles, emo);
                 foreach (String s in TDFileList)
                 {
-                    DataClass dataClass = new DataClass(emo, "TD" + i);
+                    DataClass dataClass = new DataClass( "TD" + i, emo);
                     dataClass = readInCSVDataClass(dataClass, s);
                     dataClass.pupilDilationStandardDevidation= CalculateStandardDeviation(dataClass.pupilDilation);
                     dataClass.fixationDurationStandardDeviation= CalculateStandardDeviation(dataClass.fixationDuration);
@@ -78,7 +76,7 @@ namespace PCHTCoursework
                 ASDFileList = FileFilter(ASDFiles, emo);
                 foreach (String s in ASDFileList)
                 {
-                    DataClass dataClass = new DataClass(emo, "ASD" + i);
+                    DataClass dataClass = new DataClass("ASD" + i,emo);
                     dataClass = readInCSVDataClass(dataClass, s);
                     dataClass.pupilDilationStandardDevidation = CalculateStandardDeviation(dataClass.pupilDilation);
                     dataClass.fixationDurationStandardDeviation = CalculateStandardDeviation(dataClass.fixationDuration);
@@ -95,20 +93,39 @@ namespace PCHTCoursework
             }
             Console.WriteLine();
 
+            DataClasses roiIsOne = new DataClasses();
+            DataClasses roiIsTwo = new DataClasses();
             //add standard deviation with reigon of interest
-            foreach (DataClass d in dataClassesTD.dataClasses)
+            foreach (DataClass data in allDataClasses.dataClasses)
             {
-                foreach (double dub in d.reigonOfInterest)
+                DataClass dataClassOne = new DataClass(data.name, data.emotion);
+                DataClass dataClassTwo = new DataClass(data.name, data.emotion);
+                double[] pupilDilation = data.pupilDilation.ToArray();
+                double[] fixationDuration = data.fixationDuration.ToArray();
+                double[] reigonOfInterest = data.reigonOfInterest.ToArray();
+                for (int j = 0; j < reigonOfInterest.Length; j++)
                 {
-                    if (dub == 1)
+                    if (reigonOfInterest[j] == 1)
                     {
-                        Console.WriteLine("We got a 1");
+                        dataClassOne.reigonOfInterest.Add(reigonOfInterest[j]);
+                        dataClassOne.fixationDuration.Add(fixationDuration[j]);
+                        dataClassOne.pupilDilation.Add(pupilDilation[j]);
+                        
                     }
                     else
                     {
-                        Console.WriteLine("This is a 2");
+                        dataClassTwo.reigonOfInterest.Add(reigonOfInterest[j]);
+                        dataClassTwo.fixationDuration.Add(fixationDuration[j]);
+                        dataClassTwo.pupilDilation.Add(pupilDilation[j]);
+                        
                     }
                 }
+                roiIsOne.AddDataClassToList(dataClassOne);
+                roiIsTwo.AddDataClassToList(dataClassTwo);
+            }
+            foreach (DataClass item in roiIsOne.dataClasses)
+            {
+                Console.WriteLine(item.name + item.emotion);
             }
         }
     }

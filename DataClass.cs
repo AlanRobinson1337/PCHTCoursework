@@ -28,14 +28,14 @@ namespace PCHTCoursework
             //this.fixationDurationStandardDeviation = new List<double>();
         }
 
-        //public DataClass(string name, string emotion, List<double> pupilDilation, List<double> fixationDuration, List<int> reigonOfInterest)
-        //{
-        //    this.name = name;
-        //    this.emotion = emotion;
-        //    this.pupilDilation = pupilDilation;
-        //    this.fixationDuration = fixationDuration;
-        //    this.reigonOfInterest = reigonOfInterest;
-        //}
+        public DataClass(string name, string emotion, List<double> pupilDilation, List<double> fixationDuration, List<double> reigonOfInterest)
+        {
+            this.name = name;
+            this.emotion = emotion;
+            this.pupilDilation = pupilDilation;
+            this.fixationDuration = fixationDuration;
+            this.reigonOfInterest = reigonOfInterest;
+        }
 
     }
 }
