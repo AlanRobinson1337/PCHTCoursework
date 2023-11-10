@@ -23,9 +23,9 @@ namespace PCHTCoursework
              * This block scans directories and pulls the file paths from each where it can return a list of all paths
             **/
             //UniLaptop rootPath
-            String[] rootPath = { @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\TD\" };
+            //String[] rootPath = { @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\TD\" };
             //HomePC rootPath
-            //System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
+            System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
             string[] ASDDirs = new string[50];
             List<string> ASDFiles = new();
             string[] TDDirs = new string[50];
@@ -49,27 +49,43 @@ namespace PCHTCoursework
              * Splitting files into emotions
             **/
             string[] emotion = { "happy", "neutral", "angry" };
-            List<string> listX, listY;                      //from about here down I need to rethink
+            List<string> TDFileList, ASDFileList;                      //from about here down I need to rethink
             //-------------------------WORKING ON AREA---------------------------
             // TODO: Open Loop
 
             int i = 1;
-            DataClasses dataClasses = new DataClasses();
+            DataClasses dataClassesTD = new DataClasses();
             foreach (string emo in emotion)
             {
-                listX = FileFilter(TDFiles, emo);
-                foreach (String s in listX)
+                TDFileList = FileFilter(TDFiles, emo);
+                foreach (String s in TDFileList)
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
-                    readInCSVDataClass(TDFiles);
-                    //for each row in csv add to dataclass
-                    //do I need a new file readin? Simplified?
-                    dataClasses.AddDataClassToList(dataClass);
+                    dataClass = readInCSVDataClass(dataClass, s);
+                    dataClassesTD.AddDataClassToList(dataClass);
                     i++;
                 }
                 i = 1;
-            } //repeat above for ASD
-            foreach (DataClass item in dataClasses.dataClasses)
+            }
+            i = 1;
+            DataClasses dataClassesASD = new DataClasses();
+            foreach (string emo in emotion)
+            {
+                ASDFileList = FileFilter(ASDFiles, emo);
+                foreach (String s in ASDFileList)
+                {
+                    DataClass dataClass = new DataClass(emo, "ASD" + i);
+                    dataClass = readInCSVDataClass(dataClass, s);
+                    dataClassesTD.AddDataClassToList(dataClass);
+                    i++;
+                }
+                i = 1;
+            }
+            foreach (DataClass item in dataClassesTD.dataClasses)
+            {
+                Console.WriteLine(item.name + " " + item.emotion);
+            }
+            foreach (DataClass item in dataClassesASD.dataClasses)
             {
                 Console.WriteLine(item.name + " " + item.emotion);
             }
@@ -80,42 +96,42 @@ namespace PCHTCoursework
                 // Add record to class
                 // I++
              //----------------END OF WORKING ON AREA--------------------
-                List<double> stdPDDevsASD = new List<double>();
-            List<double> stdPDDevsTD = new List<double>();
-            List<double> stdFDDevsASD = new List<double>();
-            List<double> stdFDDevsTD = new List<double>();
+            //    List<double> stdPDDevsASD = new List<double>();
+            //List<double> stdPDDevsTD = new List<double>();
+            //List<double> stdFDDevsASD = new List<double>();
+            //List<double> stdFDDevsTD = new List<double>();
 
             /**
              * get standard Deviation for PupilDiamater & Fixation Duration
              * */
-            foreach (string emo in emotion) 
-            {
-                listX = FileFilter(TDFiles, emo);
-                foreach (string s in listX)
-                {
-                    List<double> TDFilePD = ReadInPupilDiamater(s);
-                    List<double> TDFileFD = ReadInFixationDuration(s);
-                    double stdPDDevTD = CalculateStandardDeviation(TDFilePD);
-                    double stdFDDevTD = CalculateStandardDeviation(TDFileFD);
-                    stdPDDevsTD.Add(stdPDDevTD);
-                    stdFDDevsTD.Add(stdFDDevTD);
+            //foreach (string emo in emotion) 
+            //{
+            //    listX = FileFilter(TDFiles, emo);
+            //    foreach (string s in listX)
+            //    {
+            //        List<double> TDFilePD = ReadInPupilDiamater(s);
+            //        List<double> TDFileFD = ReadInFixationDuration(s);
+            //        double stdPDDevTD = CalculateStandardDeviation(TDFilePD);
+            //        double stdFDDevTD = CalculateStandardDeviation(TDFileFD);
+            //        stdPDDevsTD.Add(stdPDDevTD);
+            //        stdFDDevsTD.Add(stdFDDevTD);
                     
-                }
-                listY = FileFilter(ASDFiles, emo);
-                foreach(string s in listY)
-                {
-                    List<double> ASDFilePD = ReadInPupilDiamater(s);
-                    List<double> ASDFileFD = ReadInFixationDuration(s);
-                    double stdPDDevASD = CalculateStandardDeviation(ASDFilePD);
-                    double stdFDDevASD = CalculateStandardDeviation(ASDFileFD);
-                    stdPDDevsASD.Add(stdPDDevASD);
-                    stdFDDevsASD.Add(stdFDDevASD);
-                }
-                foreach(double s in stdFDDevsASD)
-                {
-                    //Console.WriteLine(s);
-                }
-            }
+            //    }
+            //    listY = FileFilter(ASDFiles, emo);
+            //    foreach(string s in listY)
+            //    {
+            //        List<double> ASDFilePD = ReadInPupilDiamater(s);
+            //        List<double> ASDFileFD = ReadInFixationDuration(s);
+            //        double stdPDDevASD = CalculateStandardDeviation(ASDFilePD);
+            //        double stdFDDevASD = CalculateStandardDeviation(ASDFileFD);
+            //        stdPDDevsASD.Add(stdPDDevASD);
+            //        stdFDDevsASD.Add(stdFDDevASD);
+            //    }
+            //    foreach(double s in stdFDDevsASD)
+            //    {
+            //        //Console.WriteLine(s);
+            //    }
+            //}
 
         }
     }
