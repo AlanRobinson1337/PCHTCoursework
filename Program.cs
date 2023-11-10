@@ -62,6 +62,8 @@ namespace PCHTCoursework
                 {
                     DataClass dataClass = new DataClass(emo, "TD" + i);
                     dataClass = readInCSVDataClass(dataClass, s);
+                    dataClass.pupilDilationStandardDevidation= (CalculateStandardDeviation(dataClass.pupilDilation));
+                    dataClass.fixationDurationStandardDeviation= (CalculateStandardDeviation(dataClass.fixationDuration));
                     dataClassesTD.AddDataClassToList(dataClass);
                     i++;
                 }
@@ -76,26 +78,16 @@ namespace PCHTCoursework
                 {
                     DataClass dataClass = new DataClass(emo, "ASD" + i);
                     dataClass = readInCSVDataClass(dataClass, s);
-                    dataClassesTD.AddDataClassToList(dataClass);
+                    dataClass.pupilDilationStandardDevidation =(CalculateStandardDeviation(dataClass.pupilDilation));
+                    dataClass.fixationDurationStandardDeviation =(CalculateStandardDeviation(dataClass.fixationDuration));
+                    dataClassesASD.AddDataClassToList(dataClass);
                     i++;
                 }
                 i = 1;
             }
-            foreach (DataClass item in dataClassesTD.dataClasses)
-            {
-                Console.WriteLine(item.name + " " + item.emotion);
-            }
-            foreach (DataClass item in dataClassesASD.dataClasses)
-            {
-                Console.WriteLine(item.name + " " + item.emotion);
-            }
-                // Make class list instance.
-                // For each emotion
-                
-                // for each row in CSV
-                // Add record to class
-                // I++
-             //----------------END OF WORKING ON AREA--------------------
+
+            
+            //----------------END OF WORKING ON AREA--------------------
             //    List<double> stdPDDevsASD = new List<double>();
             //List<double> stdPDDevsTD = new List<double>();
             //List<double> stdFDDevsASD = new List<double>();
@@ -114,8 +106,7 @@ namespace PCHTCoursework
             //        double stdPDDevTD = CalculateStandardDeviation(TDFilePD);
             //        double stdFDDevTD = CalculateStandardDeviation(TDFileFD);
             //        stdPDDevsTD.Add(stdPDDevTD);
-            //        stdFDDevsTD.Add(stdFDDevTD);
-                    
+            //        stdFDDevsTD.Add(stdFDDevTD);     
             //    }
             //    listY = FileFilter(ASDFiles, emo);
             //    foreach(string s in listY)

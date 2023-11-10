@@ -11,7 +11,9 @@ namespace PCHTCoursework
         public String name { get; set; }
         public String emotion { get; set; }
         public List<double> pupilDilation { get; set; }
+        public double pupilDilationStandardDevidation { get; set; }
         public List<double> fixationDuration { get; set; }
+        public double fixationDurationStandardDeviation { get; set; }
         public List<double> reigonOfInterest { get; set; }
         private List<DataClass> dataClasses { get; set; }
 
@@ -22,6 +24,8 @@ namespace PCHTCoursework
             this.pupilDilation = new List<double>();
             this.fixationDuration = new List<double>();
             this.reigonOfInterest = new List<double>();
+            //this.pupilDilationStandardDevidation = new List<double>();
+            //this.fixationDurationStandardDeviation = new List<double>();
         }
 
         //public DataClass(string name, string emotion, List<double> pupilDilation, List<double> fixationDuration, List<int> reigonOfInterest)
