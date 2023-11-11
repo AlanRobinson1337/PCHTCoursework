@@ -123,43 +123,77 @@ namespace PCHTCoursework
                 roiIsOne.AddDataClassToList(dataClassOne);
                 roiIsTwo.AddDataClassToList(dataClassTwo);
             }
-            DataClasses dcTD = new DataClasses();
-            DataClasses dcASD = new DataClasses();
-            foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) //resplitting into ASD & TD
+
+            foreach (DataClass data in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
             {
-                if (item.name.Contains("TD"))
+                List<double> ones = new List<double>();
+                List<double> twos = new List<double>();
+                foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) 
                 {
-                    dcTD.dataClasses.Add(item);
-                }
-                else
-                {
-                    dcASD.dataClasses.Add(item);
-                }
-            }
-            //Do Comparison here
-            foreach (var item in dcASD.dataClasses.Concat(dcTD.dataClasses))
-            {
-                List<double> groupingStdDevOnes = new List<double>();
-                List<double> groupingStdDevTwos = new List<double>();
-                foreach (string emo in emotion)
-                {
-                    if (item.emotion.Equals(emo))
+                    if (data.name.Equals(item.name) && data.emotion.Equals(item.emotion))
                     {
-                        //Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(item.fixationDuration));
                         for (int z = 0; z < item.reigonOfInterest.Count; z++)
                         {
-                            double d = item.reigonOfInterest[z];
-                            if (d == 1)
+                            if (item.reigonOfInterest[z] == 1)
                             {
-                                groupingStdDevOnes.Add(item.fixationDuration[z]);
+                                ones.Add(item.fixationDuration[z]);
                             }
-                            else { groupingStdDevTwos.Add(item.fixationDuration[z]);}//never entering
+                            else { twos.Add(item.fixationDuration[z]); }
                         }
                     }
                 }
-                Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(groupingStdDevOnes));
-                Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(groupingStdDevTwos));
+                Console.WriteLine(data.name+data.emotion+"\t Ones "+CalculateStandardDeviation(ones));
+                Console.WriteLine(data.name + data.emotion + "\t Twos " + CalculateStandardDeviation(twos));
             }
+
+            //DataClasses dcTD = new DataClasses();
+            //DataClasses dcASD = new DataClasses();
+            //foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) //resplitting into ASD & TD
+            //{
+            //    if (item.name.Contains("TD"))
+            //    {
+            //        dcTD.dataClasses.Add(item);
+            //    }
+            //    else
+            //    {
+            //        dcASD.dataClasses.Add(item);
+            //    }
+            //}
+            //Do Comparison here
+            //foreach (var item in dcASD.dataClasses.Concat(dcTD.dataClasses))
+            //{
+            //    List<double> groupingStdDevOnes = new List<double>();
+            //    List<double> groupingStdDevTwos = new List<double>();
+            //    for (int z = 0; z < item.reigonOfInterest.Count; z++)
+            //    {
+            //        if (item.reigonOfInterest[z] == 1)
+            //        {
+            //            groupingStdDevOnes.Add(item.fixationDuration[z]);
+            //        }
+            //        else { groupingStdDevTwos.Add(item.fixationDuration[z]); }
+            //    }
+                //foreach (string emo in emotion)
+                //{
+                //    //if (item.emotion.Equals(emo))
+                //    //{
+                //        //Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(item.fixationDuration));
+                //        for (int z = 0; z < item.reigonOfInterest.Count; z++)
+                //        {
+                //            double d = item.reigonOfInterest[z];
+                //            if (d == 1)
+                //            {
+                //                groupingStdDevOnes.Add(item.fixationDuration[z]);
+                //                //Console.WriteLine(d.ToString() +"\t"+ z);
+                //            }
+                //            else { groupingStdDevTwos.Add(item.fixationDuration[z]); //we go in but we dont do math
+                //                //Console.WriteLine(d.ToString() + "\t" + z);
+                //            }//we do seem to be entering - print statment confirms
+                //        }
+                //    //}
+                ////}
+                //Console.WriteLine(item.name + item.emotion + " Ones \t" + CalculateStandardDeviation(groupingStdDevOnes));
+                //Console.WriteLine(item.name + item.emotion + " Twos \t" + CalculateStandardDeviation(groupingStdDevTwos));
+            //}
         }
     }
 }
