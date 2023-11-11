@@ -123,9 +123,42 @@ namespace PCHTCoursework
                 roiIsOne.AddDataClassToList(dataClassOne);
                 roiIsTwo.AddDataClassToList(dataClassTwo);
             }
-            foreach (DataClass item in roiIsOne.dataClasses)
+            DataClasses dcTD = new DataClasses();
+            DataClasses dcASD = new DataClasses();
+            foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) //resplitting into ASD & TD
             {
-                Console.WriteLine(item.name + item.emotion);
+                if (item.name.Contains("TD"))
+                {
+                    dcTD.dataClasses.Add(item);
+                }
+                else
+                {
+                    dcASD.dataClasses.Add(item);
+                }
+            }
+            //Do Comparison here
+            foreach (var item in dcASD.dataClasses.Concat(dcTD.dataClasses))
+            {
+                List<double> groupingStdDevOnes = new List<double>();
+                List<double> groupingStdDevTwos = new List<double>();
+                foreach (string emo in emotion)
+                {
+                    if (item.emotion.Equals(emo))
+                    {
+                        //Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(item.fixationDuration));
+                        for (int z = 0; z < item.reigonOfInterest.Count; z++)
+                        {
+                            double d = item.reigonOfInterest[z];
+                            if (d == 1)
+                            {
+                                groupingStdDevOnes.Add(item.fixationDuration[z]);
+                            }
+                            else { groupingStdDevTwos.Add(item.fixationDuration[z]);}//never entering
+                        }
+                    }
+                }
+                Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(groupingStdDevOnes));
+                Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(groupingStdDevTwos));
             }
         }
     }
