@@ -9,6 +9,7 @@ using System.IO;
 using static PCHTCoursework.Calculation;
 using static PCHTCoursework.ReadIn;
 using static PCHTCoursework.FilePuller;
+using System.Runtime.CompilerServices;
 
 namespace PCHTCoursework
 {
@@ -21,9 +22,9 @@ namespace PCHTCoursework
              * This block scans directories and pulls the file paths from each where it can return a list of all paths
             **/
             //UniLaptop rootPath
-            //String[] rootPath = { @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\TD\" };
+            String[] rootPath = { @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\alanr\Source\Repos\PCHTCoursework\Data\CSVData\TD\" };
             //HomePC rootPath
-            System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
+            //System.String[] rootPath = { @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\ASD\", @"C:\Users\HP\Desktop\PCHTCoursework\PCHTCoursework\Data\CSVData\TD\"};
             string[] ASDDirs = new string[50];
             List<string> ASDFiles = new();
             string[] TDDirs = new string[50];
@@ -110,20 +111,18 @@ namespace PCHTCoursework
                         dataClassOne.reigonOfInterest.Add(reigonOfInterest[j]);
                         dataClassOne.fixationDuration.Add(fixationDuration[j]);
                         dataClassOne.pupilDilation.Add(pupilDilation[j]);
-                        
                     }
                     else
                     {
                         dataClassTwo.reigonOfInterest.Add(reigonOfInterest[j]);
                         dataClassTwo.fixationDuration.Add(fixationDuration[j]);
                         dataClassTwo.pupilDilation.Add(pupilDilation[j]);
-                        
                     }
                 }
                 roiIsOne.AddDataClassToList(dataClassOne);
                 roiIsTwo.AddDataClassToList(dataClassTwo);
             }
-
+            //TODO: Double Printing but results should be ok
             foreach (DataClass data in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
             {
                 List<double> ones = new List<double>();
@@ -144,6 +143,17 @@ namespace PCHTCoursework
                 }
                 Console.WriteLine(data.name+data.emotion+"\t Ones "+CalculateStandardDeviation(ones));
                 Console.WriteLine(data.name + data.emotion + "\t Twos " + CalculateStandardDeviation(twos));
+            }
+            //TODO: Group into single standard dev for ones and twos per emotion & data subject
+            foreach (DataClass dc in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
+            {
+                foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
+                {
+                    if (dc.name.Equals( item.name) && dc.emotion.Equals(item.emotion))
+                    {
+                        //Console.WriteLine(dc.name+" "+dc.emotion+" "+item.name);
+                    }
+                }
             }
 
             //DataClasses dcTD = new DataClasses();
