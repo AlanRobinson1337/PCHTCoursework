@@ -9,6 +9,8 @@ using System.IO;
 using static PCHTCoursework.Calculation;
 using static PCHTCoursework.ReadIn;
 using static PCHTCoursework.FilePuller;
+using Syncfusion.XlsIO.Implementation.PivotAnalysis;
+using System.Drawing;
 
 namespace PCHTCoursework
 {
@@ -63,6 +65,7 @@ namespace PCHTCoursework
                     dataClass = readInCSVDataClass(dataClass, s);
                     dataClass.pupilDilationStandardDevidation= CalculateStandardDeviation(dataClass.pupilDilation);
                     dataClass.fixationDurationStandardDeviation= CalculateStandardDeviation(dataClass.fixationDuration);
+                    dataClass.reigonOfInterest.Add(dataClass.reigonOfInterest[i]);
                     dataClassesTD.AddDataClassToList(dataClass);
                     allDataClasses.AddDataClassToList(dataClass);
                     i++;
@@ -80,6 +83,7 @@ namespace PCHTCoursework
                     dataClass = readInCSVDataClass(dataClass, s);
                     dataClass.pupilDilationStandardDevidation = CalculateStandardDeviation(dataClass.pupilDilation);
                     dataClass.fixationDurationStandardDeviation = CalculateStandardDeviation(dataClass.fixationDuration);
+                    dataClass.reigonOfInterest.Add(dataClass.reigonOfInterest[i]);
                     dataClassesASD.AddDataClassToList(dataClass);
                     allDataClasses.AddDataClassToList(dataClass);
                     i++;
@@ -92,108 +96,128 @@ namespace PCHTCoursework
                 Console.WriteLine(d.emotion + d.name +"\t\t"+d.fixationDurationStandardDeviation+"\t"+d.pupilDilationStandardDevidation);
             }
             Console.WriteLine();
-
-            DataClasses roiIsOne = new DataClasses();
-            DataClasses roiIsTwo = new DataClasses();
-            //add standard deviation with reigon of interest
-            foreach (DataClass data in allDataClasses.dataClasses)
+            //------------WORKING AREA------------------------------------------------------
+            //Averages by subject
+            double averagpupildilation = 0;
+            double averageFixationDuration = 0;
+            foreach (DataClass dataClass in allDataClasses.dataClasses)
             {
-                DataClass dataClassOne = new DataClass(data.name, data.emotion);
-                DataClass dataClassTwo = new DataClass(data.name, data.emotion);
-                double[] pupilDilation = data.pupilDilation.ToArray();
-                double[] fixationDuration = data.fixationDuration.ToArray();
-                double[] reigonOfInterest = data.reigonOfInterest.ToArray();
-                for (int j = 0; j < reigonOfInterest.Length; j++)
+                foreach (double data in dataClass.pupilDilation)
                 {
-                    if (reigonOfInterest[j] == 1)
-                    {
-                        dataClassOne.reigonOfInterest.Add(reigonOfInterest[j]);
-                        dataClassOne.fixationDuration.Add(fixationDuration[j]);
-                        dataClassOne.pupilDilation.Add(pupilDilation[j]);
-                        
-                    }
-                    else
-                    {
-                        dataClassTwo.reigonOfInterest.Add(reigonOfInterest[j]);
-                        dataClassTwo.fixationDuration.Add(fixationDuration[j]);
-                        dataClassTwo.pupilDilation.Add(pupilDilation[j]);
-                        
-                    }
+                    averagpupildilation += data;
                 }
-                roiIsOne.AddDataClassToList(dataClassOne);
-                roiIsTwo.AddDataClassToList(dataClassTwo);
-            }
-
-            foreach (DataClass data in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
-            {
-                List<double> ones = new List<double>();
-                List<double> twos = new List<double>();
-                foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) 
+                foreach (double data in dataClass.fixationDuration)
                 {
-                    if (data.name.Equals(item.name) && data.emotion.Equals(item.emotion))
+                    averageFixationDuration += data;
+                }
+                averagpupildilation /= dataClass.pupilDilation.Count();
+                averageFixationDuration /= dataClass.fixationDuration.Count();
+                Console.WriteLine(dataClass.name +"\t"+dataClass.emotion+"\t\t Pupil Dilation  "+ averagpupildilation
+                    +"\t\t Fixation Duration  "+averageFixationDuration);
+            }
+            //DONE Average pupil dilation of TD & ASD by emotion
+            //DONE Average Fixation Duration of TD & ASD by emotion
+            double emotionPDTD =0, emotionFDTD=0, emotionFDASD=0,emotionPDASD = 0;
+            foreach (string emo in emotion)
+            {
+                foreach (DataClass item in allDataClasses.dataClasses)
+                {
+                    if (item.emotion.Equals(emo))
                     {
-                        for (int z = 0; z < item.reigonOfInterest.Count; z++)
+                        if (item.name.Contains("TD"))
                         {
-                            if (item.reigonOfInterest[z] == 1)
+                            foreach (double d in item.pupilDilation)
                             {
-                                ones.Add(item.fixationDuration[z]);
+                                emotionPDTD += d;
+                            }emotionPDTD /= item.pupilDilation.Count();
+                            foreach (double d in item.fixationDuration)
+                            {
+                                emotionFDTD += d;
                             }
-                            else { twos.Add(item.fixationDuration[z]); }
+                            emotionFDTD /= item.fixationDuration.Count();
+                        }
+                        else
+                        {
+                            foreach (double d in item.pupilDilation)
+                            {
+                                emotionPDASD += d;
+                            }emotionPDASD /= item.pupilDilation.Count();
+                            foreach (double d in item.fixationDuration)
+                            {
+                                emotionFDASD += d;
+                            }emotionFDASD /= item.fixationDuration.Count();
                         }
                     }
                 }
-                Console.WriteLine(data.name+data.emotion+"\t Ones "+CalculateStandardDeviation(ones));
-                Console.WriteLine(data.name + data.emotion + "\t Twos " + CalculateStandardDeviation(twos));
+                Console.WriteLine(emo + "\tTD \tPupil Dilation\t\t" + emotionPDTD);
+                Console.WriteLine(emo + "\tTD \tFixation Duration\t" + emotionFDTD);
+                Console.WriteLine(emo + "\tASD \tPupil Dilation\t\t" + emotionPDASD);
+                Console.WriteLine(emo + "\tASD \tFixation Duration\t" + emotionFDASD);
             }
+            //TODO Average pupil dilation of TD & ASD
+            //TODO Average Fixation Duration of TD & ASD 
+            
+            //TODO Average FD for each of the two groups for face vs non - face regions
+            //TODO Average FD for each of the two groups for face vs non-face regions By Emotion
+            //===========END OF WORKING AREA------------------------------------------------
 
-            //DataClasses dcTD = new DataClasses();
-            //DataClasses dcASD = new DataClasses();
-            //foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) //resplitting into ASD & TD
+            //DataClasses roiIsOne = new DataClasses();
+            //DataClasses roiIsTwo = new DataClasses();
+            ////add standard deviation with reigon of interest
+            //foreach (DataClass data in allDataClasses.dataClasses)
             //{
-            //    if (item.name.Contains("TD"))
+            //    DataClass dataClassOne = new DataClass(data.name, data.emotion);
+            //    DataClass dataClassTwo = new DataClass(data.name, data.emotion);
+            //    double[] pupilDilation = data.pupilDilation.ToArray();
+            //    double[] fixationDuration = data.fixationDuration.ToArray();
+            //    double[] reigonOfInterest = data.reigonOfInterest.ToArray();
+            //    for (int j = 0; j < reigonOfInterest.Length; j++)
             //    {
-            //        dcTD.dataClasses.Add(item);
-            //    }
-            //    else
-            //    {
-            //        dcASD.dataClasses.Add(item);
-            //    }
-            //}
-            //Do Comparison here
-            //foreach (var item in dcASD.dataClasses.Concat(dcTD.dataClasses))
-            //{
-            //    List<double> groupingStdDevOnes = new List<double>();
-            //    List<double> groupingStdDevTwos = new List<double>();
-            //    for (int z = 0; z < item.reigonOfInterest.Count; z++)
-            //    {
-            //        if (item.reigonOfInterest[z] == 1)
+            //        if (reigonOfInterest[j] == 1)
             //        {
-            //            groupingStdDevOnes.Add(item.fixationDuration[z]);
+            //            dataClassOne.reigonOfInterest.Add(reigonOfInterest[j]);
+            //            dataClassOne.fixationDuration.Add(fixationDuration[j]);
+            //            dataClassOne.pupilDilation.Add(pupilDilation[j]);
+
             //        }
-            //        else { groupingStdDevTwos.Add(item.fixationDuration[z]); }
+            //        else
+            //        {
+            //            dataClassTwo.reigonOfInterest.Add(reigonOfInterest[j]);
+            //            dataClassTwo.fixationDuration.Add(fixationDuration[j]);
+            //            dataClassTwo.pupilDilation.Add(pupilDilation[j]);
+
+            //        }
             //    }
-                //foreach (string emo in emotion)
-                //{
-                //    //if (item.emotion.Equals(emo))
-                //    //{
-                //        //Console.WriteLine(item.name + item.emotion + "\t" + CalculateStandardDeviation(item.fixationDuration));
-                //        for (int z = 0; z < item.reigonOfInterest.Count; z++)
-                //        {
-                //            double d = item.reigonOfInterest[z];
-                //            if (d == 1)
-                //            {
-                //                groupingStdDevOnes.Add(item.fixationDuration[z]);
-                //                //Console.WriteLine(d.ToString() +"\t"+ z);
-                //            }
-                //            else { groupingStdDevTwos.Add(item.fixationDuration[z]); //we go in but we dont do math
-                //                //Console.WriteLine(d.ToString() + "\t" + z);
-                //            }//we do seem to be entering - print statment confirms
-                //        }
-                //    //}
-                ////}
-                //Console.WriteLine(item.name + item.emotion + " Ones \t" + CalculateStandardDeviation(groupingStdDevOnes));
-                //Console.WriteLine(item.name + item.emotion + " Twos \t" + CalculateStandardDeviation(groupingStdDevTwos));
+            //    roiIsOne.AddDataClassToList(dataClassOne);
+            //    roiIsTwo.AddDataClassToList(dataClassTwo);
             //}
+            //foreach (DataClass data in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses))
+            //{
+            //    List<double> ones = new List<double>(); //change to class
+            //    List<double> twos = new List<double>();
+            //    foreach (DataClass item in roiIsOne.dataClasses.Concat(roiIsTwo.dataClasses)) 
+            //    {
+            //        if (data.name.Equals(item.name) && data.emotion.Equals(item.emotion))
+            //        {
+            //            for (int z = 0; z < item.reigonOfInterest.Count; z++)
+            //            {
+            //                if (item.reigonOfInterest[z] == 1)
+            //                {
+            //                    ones.Add(item.fixationDuration[z]); //insert class in working if
+            //                }
+            //                else { twos.Add(item.fixationDuration[z]); }
+            //            }
+            //        }
+            //    }
+            //    Console.WriteLine(data.name+data.emotion+"\tFixation Duration Ones "+CalculateStandardDeviation(ones));
+            //    Console.WriteLine(data.name + data.emotion + "\tFixation Duration Twos " + CalculateStandardDeviation(twos));
+            //    //for ones && twos 
+            //        //for class in ones & twos
+            //            //if names match && emotions match && roi != roi
+            //                //add to all subjects per emotion emotion fixation standard dev
+            //}
+
+            //new code here
         }
     }
 }
