@@ -37,5 +37,11 @@ namespace PCHTCoursework
             this.reigonOfInterest = reigonOfInterest;
         }
 
+        public DataClass()
+        {
+            this.pupilDilation = new List<double>();
+            this.fixationDuration = new List<double>();
+            this.reigonOfInterest = new List<double>();
+        }
     }
 }

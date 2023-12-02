@@ -197,27 +197,53 @@ namespace PCHTCoursework
             Console.WriteLine("Pupil Dilation\t\t" + ASDPD);
             //TODO Average FD for each of the two groups for face vs non - face regions
             //TODO Average FD for each of the two groups for face vs non-face regions By Emotion
-            List<DataClass> TdRoiOne = new List<DataClass>();
-            List<DataClass> TdRoiTwo = new List<DataClass>();
+            List<DataClass> RoiOne = new List<DataClass>();
+            List<DataClass> RoiTwo = new List<DataClass>();
             List<DataClass> ASdRoiOne = new List<DataClass>();
             List<DataClass> ASdRoiTwo = new List<DataClass>();
             foreach (DataClass item in allDataClasses.dataClasses) //SPLITTER
             {
-                DataClass one = null, two = null;
-
-                if (item.name.Contains("TD")){
-                    foreach (double d in item.reigonOfInterest)
+                DataClass ones = new DataClass();
+                DataClass twos = new DataClass();
+                ones.emotion = item.emotion;
+                twos.emotion = item.emotion;
+                ones.name = item.name;
+                twos.name = item.name;
+                
+                    for (int j = 0; j < item.reigonOfInterest.Count()-1; j++)
                     {
-                        if (d == 1)
+                        if (item.reigonOfInterest[j] == 1)
                         {
-                            
+
+                            ones.reigonOfInterest.Add(item.reigonOfInterest[j]);
+                            ones.pupilDilation.Add(item.pupilDilation[j]);
+                            ones.fixationDuration.Add(item.fixationDuration[j]);
+                        }
+                        else
+                        {
+                            twos.reigonOfInterest.Add(item.reigonOfInterest[j]);
+                            twos.pupilDilation.Add(item.pupilDilation[j]);
+                            twos.fixationDuration.Add(item.fixationDuration[j]);
                         }
                     }
-                }
-                else
-                {
-
-                }
+                    RoiOne.Add(ones);
+                    RoiTwo.Add(twos);
+            } //SPLITTER SUCCESS
+            Console.WriteLine("\nBy Data Subject");
+            Console.WriteLine("ROI is ONE");
+            foreach (DataClass item in RoiOne)
+            {
+                Console.WriteLine(item.name+"\t"+item.emotion+"\t" +
+                    "\tPupil Dilation \t"+CalculateStandardDeviation(item.pupilDilation)
+                    +"\tFixation Duration\t"+CalculateStandardDeviation(item.fixationDuration));
+            }
+            Console.WriteLine("ROI is TWO");
+            foreach (DataClass item in RoiTwo)
+            {
+                Console.WriteLine(item.name + "\t" + item.emotion + "\t" +
+                    "\tPupil Dilation \t" + CalculateStandardDeviation(item.pupilDilation)
+                    + "\tFixation Duration\t" + CalculateStandardDeviation(item.fixationDuration));
+            }
             //===========END OF WORKING AREA------------------------------------------------
 
             //DataClasses roiIsOne = new DataClasses();
