@@ -157,8 +157,44 @@ namespace PCHTCoursework
                 Console.WriteLine(emo + "\tASD \tPupil Dilation\t\t" + emotionPDASD);
                 Console.WriteLine(emo + "\tASD \tFixation Duration\t" + emotionFDASD);
             }
-            //TODO By Group As above
             
+            List<double> allEmoPDTD = new List<double>();
+            List<double> allEmoFDTD = new List<double>();
+            List<double> allEmoPDASD = new List<double>();
+            List<double> allEmoFDASD = new List<double>();
+            foreach (DataClass item in allDataClasses.dataClasses)
+            {
+                if (item.name.Contains("TD")){
+                    foreach (double d in item.pupilDilation)
+                    {
+                        allEmoPDTD.Add(d);
+                    }
+                    foreach (double d in item.fixationDuration)
+                    {
+                        allEmoFDTD.Add(d);
+                    }
+                }else
+                {
+                    foreach (double d in item.pupilDilation)
+                    {
+                        allEmoPDASD.Add(d);
+                    }
+                    foreach (double d in item.fixationDuration)
+                    {
+                        allEmoFDASD.Add(d);
+                    }
+                }
+            }
+            double ASDPD, ASDFD, TDPD, TDFD;
+            TDPD = CalculateStandardDeviation(allEmoPDTD);
+            TDFD = CalculateStandardDeviation(allEmoFDTD);
+            ASDPD = CalculateStandardDeviation(allEmoPDASD);
+            ASDFD = CalculateStandardDeviation(allEmoFDASD);
+            Console.WriteLine("\nBy Group");
+            Console.WriteLine("TD\nFixation Duration \t" + TDFD);
+            Console.WriteLine("Pupil Dilation\t\t" + TDPD);
+            Console.WriteLine("\nASD\nFixation Duration \t" + ASDFD);
+            Console.WriteLine("Pupil Dilation\t\t" + ASDPD);
             //TODO Average FD for each of the two groups for face vs non - face regions
             //TODO Average FD for each of the two groups for face vs non-face regions By Emotion
             //===========END OF WORKING AREA------------------------------------------------
