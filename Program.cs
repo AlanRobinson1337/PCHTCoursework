@@ -98,6 +98,7 @@ namespace PCHTCoursework
             Console.WriteLine();
             //------------WORKING AREA------------------------------------------------------
             //Averages by subject
+            Console.WriteLine("By Individual Subject");
             double averagpupildilation = 0;
             double averageFixationDuration = 0;
             foreach (DataClass dataClass in allDataClasses.dataClasses)
@@ -112,6 +113,7 @@ namespace PCHTCoursework
                 }
                 averagpupildilation /= dataClass.pupilDilation.Count();
                 averageFixationDuration /= dataClass.fixationDuration.Count();
+                
                 Console.WriteLine(dataClass.name +"\t"+dataClass.emotion+"\t\t Pupil Dilation  "+ averagpupildilation
                     +"\t\t Fixation Duration  "+averageFixationDuration);
             }
@@ -149,13 +151,13 @@ namespace PCHTCoursework
                         }
                     }
                 }
+                Console.WriteLine("\nBy Emotion");
                 Console.WriteLine(emo + "\tTD \tPupil Dilation\t\t" + emotionPDTD);
                 Console.WriteLine(emo + "\tTD \tFixation Duration\t" + emotionFDTD);
                 Console.WriteLine(emo + "\tASD \tPupil Dilation\t\t" + emotionPDASD);
                 Console.WriteLine(emo + "\tASD \tFixation Duration\t" + emotionFDASD);
             }
-            //TODO Average pupil dilation of TD & ASD
-            //TODO Average Fixation Duration of TD & ASD 
+            //TODO By Group As above
             
             //TODO Average FD for each of the two groups for face vs non - face regions
             //TODO Average FD for each of the two groups for face vs non-face regions By Emotion
