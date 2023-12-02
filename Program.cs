@@ -197,6 +197,27 @@ namespace PCHTCoursework
             Console.WriteLine("Pupil Dilation\t\t" + ASDPD);
             //TODO Average FD for each of the two groups for face vs non - face regions
             //TODO Average FD for each of the two groups for face vs non-face regions By Emotion
+            List<DataClass> TdRoiOne = new List<DataClass>();
+            List<DataClass> TdRoiTwo = new List<DataClass>();
+            List<DataClass> ASdRoiOne = new List<DataClass>();
+            List<DataClass> ASdRoiTwo = new List<DataClass>();
+            foreach (DataClass item in allDataClasses.dataClasses) //SPLITTER
+            {
+                DataClass one = null, two = null;
+
+                if (item.name.Contains("TD")){
+                    foreach (double d in item.reigonOfInterest)
+                    {
+                        if (d == 1)
+                        {
+                            
+                        }
+                    }
+                }
+                else
+                {
+
+                }
             //===========END OF WORKING AREA------------------------------------------------
 
             //DataClasses roiIsOne = new DataClasses();
